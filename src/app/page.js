@@ -1,103 +1,121 @@
-import Image from "next/image";
+
+"use client";
+import React, { useState, useMemo, useEffect } from "react";
+import Cards from "./components/Cards";
+import Filter from "./components/Filter";
+import Navbar from "./components/Navbar";
+
+
+const dummyJobs = [
+  {
+    companyLogo: "/logos/amazon.png",
+    jobTitle: "Full Stack Developer",
+    experience: "1-3 yr Exp",
+    location: "Onsite",
+    salary: "₹1,200,000",
+    description: [
+      "A user-friendly interface lets you browse stunning photos and videos",
+      "Filter destinations based on interests and travel style, and create personalized",
+    ],
+    type: "Full Time",
+  },
+  {
+    companyLogo: "/logos/tesla.png",
+    jobTitle: "Node Js Developer",
+    experience: "1-3 yr Exp",
+    location: "Remote",
+    salary: "₹1,500,000",
+    description: [
+      "A user-friendly interface lets you browse stunning photos and videos",
+      "Filter destinations based on interests and travel style, and create personalized",
+    ],
+    type: "Part Time",
+  },
+  {
+    companyLogo: "/logos/swiggy.png",
+    jobTitle: "UX/UI Designer",
+    experience: "1-3 yr Exp",
+    location: "Hybrid",
+    salary: "₹900,000",
+    description: [
+      "A user-friendly interface lets you browse stunning photos and videos",
+      "Filter destinations based on interests and travel style, and create personalized",
+    ],
+    type: "Internship",
+  },
+  {
+    companyLogo: "/logos/amazon.png",
+    jobTitle: "Backend Engineer",
+    experience: "2-4 yr Exp",
+    location: "Remote",
+    salary: "₹1,800,000",
+    description: [
+      "Work on scalable backend systems",
+      "Collaborate with product and frontend teams",
+    ],
+    type: "Full Time",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  
+  const [search, setSearch] = useState("");
+  const [location, setLocation] = useState("");
+  const [type, setType] = useState("");
+  const [minSalary, setMinSalary] = useState(0);
+  const [maxSalary, setMaxSalary] = useState(5000000);
+  const [dbJobs, setDbJobs] = useState([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  useEffect(() => {
+    fetch("/api/jobs")
+      .then((res) => res.json())
+      .then((data) => setDbJobs(data));
+  }, []);
+
+  
+  const allJobs = [
+    ...dummyJobs,
+    ...dbJobs.map((job) => ({
+      companyLogo: "/logos/amazon.png", // or pick based on companyName
+      jobTitle: job.job_title,
+      companyName: job.company_name,
+      location: job.location,
+      jobType: job.job_type,
+      salary: job.salary_max ? `₹${job.salary_max}` : "",
+      description: job.description ? [job.description] : [],
+      experience: "-", // or add if you have
+      postedAt: job.posted_at,
+    })),
+  ];
+
+
+  const filteredJobs = useMemo(() => {
+    return allJobs.filter((job) => {
+      if (search && !job.jobTitle?.toLowerCase().includes(search.toLowerCase())) return false;
+      if (location && job.location !== location) return false;
+      if (type && job.jobType !== type) return false;
+      const sal = parseInt((job.salary || "").replace(/[^\d]/g, ""));
+      if (sal < minSalary || sal > maxSalary) return false;
+      return true;
+    });
+  }, [allJobs, search, location, type, minSalary, maxSalary]);
+
+  return (
+    <div className="min-h-screen bg-[#f8f9fb] flex flex-col">
+      <Navbar />
+      <Filter
+        search={search}
+        setSearch={setSearch}
+        location={location}
+        setLocation={setLocation}
+        type={type}
+        setType={setType}
+        minSalary={minSalary}
+        setMinSalary={setMinSalary}
+        maxSalary={maxSalary}
+        setMaxSalary={setMaxSalary}
+      />
+      <Cards jobs={filteredJobs} />
     </div>
   );
 }
