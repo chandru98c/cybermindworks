@@ -49,15 +49,15 @@ const AddJobModal = ({ isOpen = true, onClose = () => {} }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center p-4 z-50">
+    <div className="overflow-y-auto fixed inset-0 bg-black/30 flex items-center justify-center p-4 z-50">
       <div
         ref={modalRef}
-        className="bg-white rounded-3xl shadow-2xl w-full max-w-[700px] max-h-fit overflow-y-auto"
+        className= " bg-white rounded-3xl shadow-2xl w-full max-w-[700px] max-h-fit overflow-y-auto"
       >
         <div className="p-6">
           {/* header */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900">
+            <h2 className=" text-2xl font-semibold text-gray-900">
               Create Job Opening
             </h2>
           </div>

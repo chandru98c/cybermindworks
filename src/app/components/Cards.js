@@ -2,6 +2,7 @@
 "use client";
 import React from "react";
 import { Users, MapPin, Layers } from "lucide-react";
+import Image from "next/image";
 
 const JobCard = ({
   companyLogo,
@@ -24,49 +25,60 @@ const JobCard = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-      {/* jogo  */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="w-15 h-15 flex items-center justify-center rounded-lg p-1 border shadow-sm bg-linear-gradient bg-white-to-black bg-gradient-to-r bg  overflow-hidden">
-          <img
-            src={companyLogo}
-            alt={jobTitle}
-            className="w-full h-full object-contain bg-black rounded-full"
-          />
+    <div style={{ boxShadow: '0px 0px 14px 0px #D3D3D326' }} className="bg-white flex flex-col justify-between rounded-2xl shadow-md p-4 mt-2 border border-gray-100">
+      <div>
+        <div className="flex items-start justify-between mb-4">
+          <div   style={{
+  boxShadow: '0px 0px 10.25px 0px #94949440',
+  border: '1px solid #FFFFFF',
+  width: '83px',
+  height: '82px',
+  padding: '9px',
+  borderRadius: '13.18px',
+  background: 'linear-gradient(180deg, #FEFEFD 0%, #F1F1F1 100%)',
+}} className=" flex items-center justify-center rounded-lg p-1 border shadow-sm bg-gradient-to-r overflow-hidden">
+            <img
+              src={companyLogo}
+              alt={jobTitle}
+          
+              className="w-full h-full object-contain  rounded-full"
+            />
+           
+          </div>
+          <span style={{fontSize: '14px', fontWeight: '500'}} className="bg-[#B0D9FF] text-black text-xs px-3 py-2 rounded-lg font-medium">
+            {timePosted}
+          </span> 
         </div>
-        <span className="bg-[#B0D9FF] text-gray-800 text-xs px-3 py-1 rounded-lg font-medium">
-          {timePosted}
-        </span>
+
+        {/* job Title */}
+        <h3 style={{fontSize: '20px', fontWeight: '700'}} className="text-lg font-semibold text-gray-900 mb-4">{jobTitle}</h3>
+
+        {/* job Info */}
+        <div style={{color:'#5A5A5A'}} className="flex items-center gap-4 text-gray-600 text-sm mb-4">
+          <div className="flex items-center gap-1">
+            <img src="usercard.svg" className="w-4 h-5 text-gray-500" />
+            <span style={{fontSize: '16px', fontWeight: '500'}} >{experience}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <img src="locationcard.svg" className="w-4 h-5 text-gray-500" />
+            <span style={{fontSize: '16px', fontWeight: '500'}}>{location}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <img src="salarycard.svg" className="w-4 h-5 text-gray-500" />
+            <span style={{fontSize: '16px', fontWeight: '500'}}>{formatSalaryLPA(salary)}</span>
+          </div>
+        </div>
+
+        {/* description */}
+        <ul style={{color:'#555555', fontWeight: '500'}} className="text-sm text-gray-700 space-y-1 mb-6">
+          {description?.map((item, index) => (
+            <li key={index} className="flex items-start">
+              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+              <span className="leading-snug">{item}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      {/* job Title */}
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{jobTitle}</h3>
-
-      {/* job Info */}
-      <div className="flex items-center gap-4 text-gray-600 text-sm mb-4">
-        <div className="flex items-center gap-1">
-          <Users className="w-4 h-4 text-gray-500" />
-          <span>{experience}</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <MapPin className="w-4 h-4 text-gray-500" />
-          <span>{location}</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <Layers className="w-4 h-4 text-gray-500" />
-          <span>{formatSalaryLPA(salary)}</span>
-        </div>
-      </div>
-
-      {/* description */}
-      <ul className="text-sm text-gray-700 space-y-1 mb-6">
-        {description?.map((item, index) => (
-          <li key={index} className="flex items-start">
-            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-            <span className="leading-snug">{item}</span>
-          </li>
-        ))}
-      </ul>
 
       {/* button */}
       <button className="w-full bg-[#00AAFF] hover:bg-[#008CDB] text-white font-medium py-2.5 rounded-lg transition-colors">
@@ -77,104 +89,14 @@ const JobCard = ({
 };
 
 
-const dummyJobs = [
-  {
-    companyLogo: "/logos/amazon.png",
-    jobTitle: "Full Stack Developer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-  {
-    companyLogo: "/logos/tesla.png",
-    jobTitle: "Node Js Developer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-  {
-    companyLogo: "/logos/swiggy.png",
-    jobTitle: "UX/UI Designer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
 
-  {
-    companyLogo: "/logos/amazon.png",
-    jobTitle: "Full Stack Developer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-  {
-    companyLogo: "/logos/tesla.png",
-    jobTitle: "Node Js Developer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-  {
-    companyLogo: "/logos/swiggy.png",
-    jobTitle: "UX/UI Designer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-  {
-    companyLogo: "/logos/amazon.png",
-    jobTitle: "Full Stack Developer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-  {
-    companyLogo: "/logos/tesla.png",
-    jobTitle: "Node Js Developer",
-    experience: "1-3 yr Exp",
-    location: "Onsite",
-    salary: "₹1,200,000",
-    description: [
-      "A user-friendly interface lets you browse stunning photos and videos",
-      "Filter destinations based on interests and travel style, and create personalized",
-    ],
-  },
-];
 
 
 const Cards = ({ jobs }) => {
-  const jobsToShow = jobs || dummyJobs;
+  const jobsToShow = jobs ;
   return (
-    <div className="p-6  min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="py-10 px-14 min-h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {jobsToShow.map((job, idx) => (
           <JobCard key={idx} {...job} />
         ))}

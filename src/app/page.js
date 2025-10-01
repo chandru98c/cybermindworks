@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 
 const dummyJobs = [
   {
-    companyLogo: "/logos/amazon.png",
+    companyLogo: "/1asd.png",
     jobTitle: "Full Stack Developer",
     experience: "1-3 yr Exp",
     location: "Onsite",
@@ -20,7 +20,7 @@ const dummyJobs = [
     type: "Full Time",
   },
   {
-    companyLogo: "/logos/tesla.png",
+    companyLogo: "/2asd.png",
     jobTitle: "Node Js Developer",
     experience: "1-3 yr Exp",
     location: "Remote",
@@ -32,7 +32,7 @@ const dummyJobs = [
     type: "Part Time",
   },
   {
-    companyLogo: "/logos/swiggy.png",
+    companyLogo: "/3asd.png",
     jobTitle: "UX/UI Designer",
     experience: "1-3 yr Exp",
     location: "Hybrid",
@@ -44,7 +44,7 @@ const dummyJobs = [
     type: "Internship",
   },
   {
-    companyLogo: "/logos/amazon.png",
+    companyLogo: "1asd.png",
     jobTitle: "Backend Engineer",
     experience: "2-4 yr Exp",
     location: "Remote",
@@ -76,14 +76,14 @@ export default function Home() {
   const allJobs = [
     ...dummyJobs,
     ...dbJobs.map((job) => ({
-      companyLogo: "/logos/amazon.png", // or pick based on companyName
+      companyLogo: "/2asd.png", 
       jobTitle: job.job_title,
       companyName: job.company_name,
       location: job.location,
       jobType: job.job_type,
       salary: job.salary_max ? `₹${job.salary_max}` : "",
       description: job.description ? [job.description] : [],
-      experience: "-", // or add if you have
+      experience: "-", 
       postedAt: job.posted_at,
     })),
   ];
@@ -101,7 +101,7 @@ export default function Home() {
   }, [allJobs, search, location, type, minSalary, maxSalary]);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fb] flex flex-col">
+    <div className="min-h-screen bg-[#FBFBFF] flex flex-col">
       <Navbar />
       <Filter
         search={search}
